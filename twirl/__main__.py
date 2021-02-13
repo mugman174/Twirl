@@ -7,7 +7,7 @@ args = argv[1:]
 flags = [
     "install",
     "remove",
-    "purge",
+    "purge", 
     "search"
 ]
 
@@ -20,5 +20,4 @@ for arg in args:
 
 if count != 2:
     raise IncorrectArgumentFormatError(f"Incorrect amount of operations provided. (Expected 2, got {count})")
-
 pkg(argv[2])
