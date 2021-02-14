@@ -12,7 +12,6 @@ def pkg(name):
 Requires: {package.depends}
 License: {package.licenses[0]}
 Description: {package.desc}
-Hash: {package.md5sum}
 Optional Dependencies: {package.optdepends}
 Url: {package.url}
-""")
+""")    
