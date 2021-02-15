@@ -9,4 +9,3 @@ def pkg(name):
     if not package:
         raise PackageNotFoundError(name)
     logging.info(f"Attempting to install {name} (version {package.version})")
-

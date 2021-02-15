@@ -12,11 +12,10 @@ flags = [
 ]
 
 count = 0
-prettyargs = ', '.join(flags)
 try:
     for arg in args: 
         if args[count] not in flags and count != 1:
-            raise IncorrectArgumentFormatError(f"Unknown argument '{args[count]}'. (Valid arguments are {prettyargs})")
+            raise IncorrectArgumentFormatError(f"Unknown argument '{args[count]}'. (Valid arguments are {', '.join(flags)})")
         count += 1
     if count != 2:
         raise IncorrectArgumentFormatError(f"Incorrect amount of operations provided. (Expected 2, got {count})")
