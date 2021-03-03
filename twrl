@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #imports
-import twirl,pyalpm,sys
+import pyalpm,sys #,twirl
 
 # Try to get the operation (like search or install)
 try:
@@ -10,7 +10,9 @@ except Exception:
 	sys.exit(1)
 
 #get the db
-db = twirl.handle.get_localdb()
+#db = twirl.handle.get_localdb()
+handle = pyalpm.Handle("/","/var/lib/pacman")
+db = handle.get_localdb()
 
 if op == "search": # search db
 	try:
@@ -35,7 +37,7 @@ elif op == "show": # something like apt show
 
 elif op == "--help":
 	helppage = """
-twirl help page:
+twrl help page:
 
 --help            | shows this help page
 search [package]  | search for [package]
@@ -52,7 +54,7 @@ elif op == "install":
 		query = input("Package Name: ")
 	pkg = db.get_pkg(query)
 	if pkg == None:
-		raise twirl.errors.PackageNotFoundError(query)
+		raise Exception(f"{query} does not exist.")
 	print(f"Found {pkg}. Dependencies: {[x for x in pkg.depends]}")
 	for dep in pkg.depends:
 		if dep in acc_deps:
@@ -69,5 +71,5 @@ elif op == "refresh" or op == "sync":
 	print(f"Refreshing these repos:")
 	for repo in repos:
 		print(repo)
-		twirl.handle.register_syncdb(repo,pyalpm.SIG_DATABASE)
+		handle.register_syncdb(repo,pyalpm.SIG_DATABASE)
 	print("Done!")
