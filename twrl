@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 #imports
-import twirl
 import sys
-
+try:
+	import twirl
+except ModuleNotFoundError:
+	print("Make sure you have twirl installed or in the same directory as this program.")
+	sys.exit(69)
 # Try to get the operation (like search or install)
 try:
 	op = sys.argv[1]
