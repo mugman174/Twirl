@@ -4,7 +4,7 @@ import sys
 try:
 	op = sys.argv[1]
 except Exception:
-	print(f"Provide an operation (e.g. ./{sys.argv[0]} search)")
+	print(f"Provide an operation (e.g. {sys.argv[0]} search)")
 	sys.exit(1)
 
 db = twirl.handle.get_localdb()
@@ -23,3 +23,16 @@ elif op == "show":
 		query = sys.argv[2]
 	except Exception:
 		query = input("Search Query: ")
+	pkg = db.get_pkg(query)
+	if pkg == None or not pkg:
+		print(f"{query} not found.")
+	else:
+		print(f"{pkg.name}: {pkg.desc}\nVersion: {pkg.version}")
+elif op == "--help":
+	helppage = """
+	twirl help page:
+		--help | shows this help page
+		search [package] | search for [package]
+		show [package] | show [package]
+	"""
+	print(helppage)
