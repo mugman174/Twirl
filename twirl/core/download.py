@@ -1,5 +1,6 @@
 from twirl.errors import PackageNotFoundError
 from twirl.core.debug import logging
+from twirl import coredb
 from twirl import localdb
 
 def search_for_pkg(name):
@@ -12,7 +13,9 @@ def search_for_pkg(name):
 
 def pkg(name, version=None, acc_deps=set()):
 
-    package = localdb.get_pkg(name)
+    if localdb.get_pkg(name):
+        logging.info(f"WARNING: Package {name} is already installed.")
+    package = coredb.get_pkg(name)
     if not package:
         package = search_for_pkg(name)
         if package is None:
@@ -33,5 +36,7 @@ def pkg(name, version=None, acc_deps=set()):
         if ">=" in dep:
             pkg(dep.split(">=")[0], dep.split(">=")[1], acc_deps=acc_deps)
         elif "=" in dep:
-            pkg(dep.split("=")[0], dep.split("=")[1], acc_deps=acc_deps)
-        else: pkg(dep, acc_deps=acc_deps)
+            pkg(dep.split("=")[0], dep.split("=")[1])
+        elif ".so" in dep:
+            continue
+        else: pkg(dep)
