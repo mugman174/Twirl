@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #imports
-import pyalpm,sys #,twirl
+import pyalpm,sys,twirl
 
 # Try to get the operation (like search or install)
 try:
@@ -11,7 +11,7 @@ except Exception:
 
 #get the db
 #db = twirl.handle.get_localdb()
-handle = pyalpm.Handle("/","/var/lib/pacman")
+handle = twirl.handle
 db = handle.get_localdb()
 
 if op == "search": # search db
