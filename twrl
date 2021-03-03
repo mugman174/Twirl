@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+import twirl
+import sys
+try:
+	op = sys.argv[1]
+except Exception:
+	print(f"Provide an operation (e.g. ./{sys.argv[0]} search)")
+	sys.exit(1)
+
+db = twirl.handle.get_localdb()
+
+if op == "search":
+	try:
+		query = sys.argv[2]
+	except Exception:
+		query = input("Search Query: ")
+	res = db.search(query)
+	print("Results:")
+	for x in res:
+		print(x.name)
+elif op == "show":
+	try:
+		query = sys.argv[2]
+	except Exception:
+		query = input("Search Query: ")
