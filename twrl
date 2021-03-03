@@ -62,3 +62,11 @@ elif op == "install":
 			acc_deps.add(dep)
 		print(dep)
 		print("Unfinished code someone please add stuff here")
+elif op == "refresh" or op == "sync":
+	try:
+		repos = [sys.argv[2]]
+	except Exception:
+		repos = ["core","community","extra"]
+	for repo in repos:
+		twirl.handle.register_syncdb(repo)
+	print("Done!")
