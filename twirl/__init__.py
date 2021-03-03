@@ -1,3 +1,4 @@
+import pyalpm
 from pyalpm import Handle
 
 handle = Handle("/", "/var/lib/pacman")
