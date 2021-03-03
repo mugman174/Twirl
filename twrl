@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 #imports
-import twirl
-import sys
+import twirl,pyalpm,sys
 
 # Try to get the operation (like search or install)
 try:
@@ -67,6 +66,8 @@ elif op == "refresh" or op == "sync":
 		repos = [sys.argv[2]]
 	except Exception:
 		repos = ["core","community","extra"]
+	print(f"Refreshing these repos:")
 	for repo in repos:
-		twirl.handle.register_syncdb(repo)
+		print(repo)
+		twirl.handle.register_syncdb(repo,pyalpm.SIG_DATABASE)
 	print("Done!")
