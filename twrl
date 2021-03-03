@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+#imports
+import twirl
+import sys
+
+# Try to get the operation (like search or install)
+try:
+	op = sys.argv[1]
+except Exception:
+	print(f"Provide an operation (e.g. {sys.argv[0]} search)")
+	sys.exit(1)
+
+#get the db
+db = twirl.handle.get_localdb()
+
+if op == "search": # search db
+	try:
+		query = sys.argv[2] #try to get the arg
+	except Exception:
+		query = input("Search Query: ") #ask with input
+	res = db.search(query) #search for package
+	print("Results:")
+	for x in res: #loop through results
+		print(x.name) #print results name
+
+elif op == "show": # something like apt show
+	try:
+		query = sys.argv[2]
+	except Exception:
+		query = input("Search Query: ")
+	pkg = db.get_pkg(query)
+	if pkg == None or not pkg:
+		print(f"{query} not found.")
+	else:
+		print(f"{pkg.name}: {pkg.desc}\nVersion: {pkg.version}")
+
+elif op == "--help":
+	helppage = """
+twirl help page:
+
+--help            | shows this help page
+search [package]  | search for [package]
+show [package]    | show [package]
+install [package] | install [package] (WIP)
+	"""
+	print(helppage)
+
+elif op == "install":
+	acc_deps = set()
+	try:
+		query = sys.argv[2]
+	except Exception:
+		query = input("Package Name: ")
+	pkg = db.get_pkg(query)
+	if pkg == None:
+		raise twirl.errors.PackageNotFoundError(query)
+	print(f"Found {pkg}. Dependencies: {[x for x in pkg.depends]}")
+	for dep in pkg.depends:
+		if dep in acc_deps:
+			continue
+		else:
+			acc_deps.add(dep)
+		print(dep)
+		print("Unfinished code someone please add stuff here")
